@@ -1,7 +1,9 @@
 import tkinter as tk
 
 from MWU_gui.pages.home import HomePage
+from MWU_gui.pages.user.user_create_page import UserCreatePage
 from MWU_gui.pages.user.user_page import UserPage
+from MWU_gui.pages.user.user_update_page import UserUpdatePage
 
 
 class App(tk.Tk):
@@ -29,13 +31,21 @@ class App(tk.Tk):
         self.pages["UserPage"] = user_list_page
         user_list_page.grid(row=0, column=0, sticky="nsew")
 
-    def show_page(self, page_name):
+        user_update_page = UserUpdatePage(self.container, self)
+        self.pages["UserUpdatePage"] = user_update_page
+        user_update_page.grid(row=0, column=0, sticky="nsew")
+
+        user_create_page = UserCreatePage(self.container, self)
+        self.pages["UserCreatePage"] = user_create_page
+        user_create_page.grid(row=0, column=0, sticky="nsew")
+
+    def show_page(self, page_name, **kwargs):
         for page in self.pages.values():
             page.hide()
 
         page = self.pages[page_name]
         page.show()
-        page.refresh()
+        page.refresh(**kwargs)
 
 
 if __name__ == "__main__":
