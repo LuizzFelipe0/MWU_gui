@@ -1,5 +1,8 @@
 import tkinter as tk
 
+from MWU_gui.pages.accounts.account_create_page import AccountCreatePage
+from MWU_gui.pages.accounts.account_page import AccountsPage
+from MWU_gui.pages.accounts.account_update_page import AccountUpdatePage
 from MWU_gui.pages.home import HomePage
 from MWU_gui.pages.user.user_create_page import UserCreatePage
 from MWU_gui.pages.user.user_page import UserPage
@@ -26,6 +29,18 @@ class App(tk.Tk):
         home_page = HomePage(self.container, self)
         self.pages["HomePage"] = home_page
         home_page.grid(row=0, column=0, sticky="nsew")
+
+        account_list_page = AccountsPage(self.container, self)
+        self.pages["AccountsPage"] = account_list_page
+        account_list_page.grid(row=0, column=0, sticky="nsew")
+
+        account_update_page = AccountUpdatePage(self.container, self)
+        self.pages["AccountUpdatePage"] = account_update_page
+        account_update_page.grid(row=0, column=0, sticky="nsew")
+
+        account_create_page = AccountCreatePage(self.container, self)
+        self.pages["AccountCreatePage"] = account_create_page
+        account_create_page.grid(row=0, column=0, sticky="nsew")
 
         user_list_page = UserPage(self.container, self)
         self.pages["UserPage"] = user_list_page

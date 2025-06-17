@@ -51,9 +51,9 @@ class UserPage(BasePage):
             "cpf": "CPF",
             "email": "Email",
             "manual_balance": "Balance",
-            "created_at": "Created",
-            "updated_at": "Updated",
-            "deleted_at": "Deleted"
+            "created_at": "Created At",
+            "updated_at": "Updated At",
+            "deleted_at": "Deleted At"
         }
 
         self.user_list_component = ListBoxComponent(self, columns=self.columns, display_headings=self.display_headings)

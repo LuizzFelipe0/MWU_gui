@@ -1,9 +1,10 @@
 from tkinter import messagebox, ttk
 from uuid import UUID
 
-from ...pages.base_page import BasePage
 from ...components.detail_form_component import DetailFormComponent
 from ...core.users_endpoints import user_api_client
+from ...pages.base_page import BasePage
+
 
 class UserUpdatePage(BasePage):
     def __init__(self, parent, controller=None, *args, **kwargs):
@@ -23,8 +24,6 @@ class UserUpdatePage(BasePage):
                                      command=lambda: self.controller.show_page("UserPage"))
             back_button.grid(row=0, column=0, padx=10, pady=10, sticky="nw")
 
-        # --- User Fields Configuration for Update Page ---
-        # Password field is NOT included here as it's for update
         self.user_fields_config = [
             {'label': 'ID', 'key': 'id', 'type': 'entry', 'read_only': True},
             {'label': 'First Name', 'key': 'first_name', 'type': 'entry'},
@@ -37,13 +36,12 @@ class UserUpdatePage(BasePage):
             {'label': 'Deleted At', 'key': 'deleted_at', 'type': 'entry', 'read_only': True},
         ]
 
-        # Instantiate the generalized form component
         self.detail_form = DetailFormComponent(
             self,
             fields_config=self.user_fields_config,
-            on_save_callback=None, # No 'Save' button for update page
-            on_update_callback=self._update_user, # Specific update method
-            on_delete_callback=self._delete_user, # Specific delete method
+            on_save_callback=None,
+            on_update_callback=self._update_user,
+            on_delete_callback=self._delete_user,
             on_cancel_callback=lambda: self.controller.show_page("UserPage"),
             title_text="Update User Details",
             bg=self.cget('bg')
@@ -51,10 +49,6 @@ class UserUpdatePage(BasePage):
         self.detail_form.grid(row=1, column=1, padx=20, pady=20, sticky="nsew")
 
     def refresh(self, user_id=None):
-        """
-        Fetches and displays the user data for update.
-        This page expects a user_id.
-        """
         if user_id:
             try:
                 self.current_user_id = UUID(str(user_id))
@@ -70,27 +64,23 @@ class UserUpdatePage(BasePage):
                 self._reset_form_and_navigate_back()
         else:
             messagebox.showwarning("Warning", "No user selected for update. Returning to list.")
-            self._reset_form_and_navigate_back() # Always expect an ID for update page
+            self._reset_form_and_navigate_back()  # Always expect an ID for update page
 
     def _reset_form_and_navigate_back(self):
-        """Helper to clear form and go back to list on error/cancel."""
         self.detail_form.set_data({})
         self.current_user_id = None
         self.controller.show_page("UserPage")
 
     def _update_user(self):
-        """Logic to update an existing user."""
         if not self.current_user_id:
             messagebox.showerror("Error", "No user selected for update.")
             return
 
         user_data = self.detail_form.get_data()
 
-        # Fields for UserUpdateInput (aligned with your schema)
         update_fields = ['first_name', 'last_name', 'cpf', 'email', 'manual_balance']
         payload = {k: v for k, v in user_data.items() if k in update_fields and v is not None}
 
-        # Type conversion for 'manual_balance'
         if 'manual_balance' in payload and payload['manual_balance']:
             try:
                 payload['manual_balance'] = float(payload['manual_balance'])
@@ -98,7 +88,6 @@ class UserUpdatePage(BasePage):
                 messagebox.showerror("Validation Error", "Manual Balance must be a number.")
                 return
 
-        # Basic validation (add more comprehensive validation as needed)
         if not payload.get('first_name') or not payload.get('email') or not payload.get('cpf'):
             messagebox.showerror("Validation Error", "First Name, CPF, and Email are required.")
             return
@@ -111,7 +100,6 @@ class UserUpdatePage(BasePage):
             messagebox.showerror("API Error", f"Failed to update user: {e}")
 
     def _delete_user(self):
-        """Logic for soft-deleting a user."""
         if not self.current_user_id:
             messagebox.showerror("Error", "No user selected for deletion.")
             return
