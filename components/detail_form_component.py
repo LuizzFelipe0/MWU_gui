@@ -4,10 +4,6 @@ from tkinter import ttk
 
 
 class DetailFormComponent(tk.Frame):
-    """
-    Componente de formulário generalizado para exibir detalhes de um objeto
-    e permitir operações de salvar, atualizar, deletar e cancelar.
-    """
 
     def __init__(self, parent, fields_config: list,
                  on_save_callback=None, on_update_callback=None,
@@ -22,13 +18,12 @@ class DetailFormComponent(tk.Frame):
         self.on_cancel_callback = on_cancel_callback
         self.title_text = title_text
 
-        self.entry_vars = {}  # Dicionário para armazenar as StringVar associadas aos Entries
+        self.entry_vars = {}
 
         self._setup_ui()
-        self._apply_styles()  # Aplica estilos específicos para este componente
+        self._apply_styles()
 
     def _apply_styles(self):
-        """Define e aplica estilos para os widgets do formulário."""
         style = ttk.Style()
         style.theme_use('clam')
 
@@ -45,7 +40,15 @@ class DetailFormComponent(tk.Frame):
         style.map("Detail.TEntry",
                   fieldbackground=[("focus", "#E0F2F7")])
 
-        # Botões de ação
+        style.configure("Detail.TCombobox",
+                        fieldbackground="white",
+                        foreground="#333333",
+                        padding=(8, 8),
+                        borderwidth=1,
+                        relief="flat")
+        style.map("Detail.TCombobox",
+                  fieldbackground=[("focus", "#E0F2F7")])
+
         style.configure("Save.TButton", background="#007AFF", foreground="white", font=("Arial", 12, "bold"),
                         borderwidth=0, relief="flat")
         style.map("Save.TButton", background=[("active", "#0056B3"), ("!disabled", "#007AFF")],
@@ -80,27 +83,35 @@ class DetailFormComponent(tk.Frame):
             field_key = field.get('key', '')
             field_type = field.get('type', 'entry')
             read_only = field.get('read_only', False)
-            show_field = field.get('show', True)  # NEW: Allow hiding fields
+            show_field = field.get('show', True)
 
             if not show_field:
-                continue  # Skip this field if not meant to be shown
+                continue
 
             ttk.Label(self, text=f"{label_text}:", style="Detail.TLabel").grid(row=current_row, column=0, padx=10,
                                                                                pady=5, sticky="w")
 
+            var = tk.StringVar(value="")  # Initialize StringVar for all types
+
             if field_type == 'entry':
-                var = tk.StringVar(value="")
-                entry = ttk.Entry(self, textvariable=var, style="Detail.TEntry")
+                widget = ttk.Entry(self, textvariable=var, style="Detail.TEntry")
                 if read_only:
-                    entry.configure(state="readonly")
-                entry.grid(row=current_row, column=1, padx=10, pady=5, sticky="ew")
-                self.entry_vars[field_key] = var  # Store var even if read_only for data retrieval
-            elif field_type == 'password':  # NEW: A dedicated type for password, potentially masked
-                var = tk.StringVar(value="")
-                entry = ttk.Entry(self, textvariable=var, show="*", style="Detail.TEntry")  # Mask password
-                entry.grid(row=current_row, column=1, padx=10, pady=5, sticky="ew")
-                self.entry_vars[field_key] = var
-            # Add more field types here if needed
+                    widget.configure(state="readonly")
+                widget.grid(row=current_row, column=1, padx=10, pady=5, sticky="ew")
+            elif field_type == 'password':
+                widget = ttk.Entry(self, textvariable=var, show="*", style="Detail.TEntry")
+                widget.grid(row=current_row, column=1, padx=10, pady=5, sticky="ew")
+            elif field_type == 'dropdown':
+                options = field.get('options', [])
+                if options:
+                    var.set(options[0])
+                widget = ttk.Combobox(self, textvariable=var, values=options, state="readonly",
+                                      style="Detail.TCombobox")
+                if read_only:
+                    widget.configure(state="readonly")
+                widget.grid(row=current_row, column=1, padx=10, pady=5, sticky="ew")
+
+            self.entry_vars[field_key] = var
 
             current_row += 1
 
@@ -142,17 +153,21 @@ class DetailFormComponent(tk.Frame):
                                                                                                                   pady=5)
 
     def set_data(self, data: dict):
-        """Popula os campos do formulário com os dados fornecidos."""
-        for key, var in self.entry_vars.items():
-            value = data.get(key, "")
-            # Format datetime objects for display if they exist
-            if isinstance(value, datetime):
-                var.set(value.strftime("%Y-%m-%d %H:%M:%S"))
-            else:
-                var.set(str(value))
+        for field in self.fields_config:
+            field_key = field.get('key', '')
+            field_type = field.get('type', 'entry')
+            var = self.entry_vars.get(field_key)
+
+            if var:
+                value = data.get(field_key, "")
+                if isinstance(value, datetime):
+                    var.set(value.strftime("%Y-%m-%d %H:%M:%S"))
+                elif field_type == 'dropdown' and not value and field.get('options'):
+                    var.set(field['options'][0])
+                else:
+                    var.set(str(value))
 
     def get_data(self) -> dict:
-        """Coleta os dados dos campos do formulário e retorna como um dicionário."""
         data = {}
         for key, var in self.entry_vars.items():
             data[key] = var.get()

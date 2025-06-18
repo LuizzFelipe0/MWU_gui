@@ -45,7 +45,7 @@ class UserCreatePage(BasePage):
 
     def refresh(self, **kwargs):
 
-        self.detail_form.set_data({})  # Ensure the form is empty
+        self.detail_form.set_data({})
         if self.controller:
             self.controller.title("Create New User")
 
