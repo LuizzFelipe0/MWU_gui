@@ -8,7 +8,7 @@ class DetailFormComponent(tk.Frame):
     def __init__(self, parent, fields_config: list,
                  on_save_callback=None, on_update_callback=None,
                  on_delete_callback=None, on_cancel_callback=None,
-                 title_text="Detalhes do Objeto", *args, **kwargs):
+                 title_text="Details of Object", *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
 
         self.fields_config = fields_config
@@ -91,7 +91,7 @@ class DetailFormComponent(tk.Frame):
             ttk.Label(self, text=f"{label_text}:", style="Detail.TLabel").grid(row=current_row, column=0, padx=10,
                                                                                pady=5, sticky="w")
 
-            var = tk.StringVar(value="")  # Initialize StringVar for all types
+            var = tk.StringVar(value="")
 
             if field_type == 'entry':
                 widget = ttk.Entry(self, textvariable=var, style="Detail.TEntry")

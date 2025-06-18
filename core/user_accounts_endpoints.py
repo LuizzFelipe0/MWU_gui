@@ -3,13 +3,10 @@ from uuid import UUID
 from ..core.api_client import APIClient
 
 
-class AccountAPIClient(APIClient):
+class UserAccountsAPIClient(APIClient):
 
-    def get_all_accounts(self):
+    def get_all_user_accounts(self):
         return self._make_request("GET", "/accounts/all")
-
-    def get_deleted_accounts(self):
-        return self._make_request("GET", "/accounts/deleted")
 
     def get_account_by_id(self, account_id: UUID):
         return self._make_request("GET", f"/accounts/{account_id}")
@@ -30,4 +27,4 @@ class AccountAPIClient(APIClient):
         return self._make_request("DELETE", f"/accounts/{account_id}/force-delete")
 
 
-account_api_client = AccountAPIClient()
+account_api_client = UserAccountsAPIClient()

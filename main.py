@@ -3,6 +3,9 @@ import tkinter as tk
 from MWU_gui.pages.accounts.account_create_page import AccountCreatePage
 from MWU_gui.pages.accounts.account_page import AccountsPage
 from MWU_gui.pages.accounts.account_update_page import AccountUpdatePage
+from MWU_gui.pages.category_types.category_types_create_page import CategoryTypeCreatePage
+from MWU_gui.pages.category_types.category_types_page import CategoryTypesPage
+from MWU_gui.pages.category_types.category_types_update_page import CategoryTypeUpdatePage
 from MWU_gui.pages.home import HomePage
 from MWU_gui.pages.user.user_create_page import UserCreatePage
 from MWU_gui.pages.user.user_page import UserPage
@@ -41,6 +44,18 @@ class App(tk.Tk):
         account_create_page = AccountCreatePage(self.container, self)
         self.pages["AccountCreatePage"] = account_create_page
         account_create_page.grid(row=0, column=0, sticky="nsew")
+
+        category_type_list_page = CategoryTypesPage(self.container, self)
+        self.pages["CategoryTypesPage"] = category_type_list_page
+        category_type_list_page.grid(row=0, column=0, sticky="nsew")
+
+        category_type_update_page = CategoryTypeUpdatePage(self.container, self)
+        self.pages["CategoryTypeUpdatePage"] = category_type_update_page
+        category_type_update_page.grid(row=0, column=0, sticky="nsew")
+
+        category_type_create_page = CategoryTypeCreatePage(self.container, self)
+        self.pages["CategoryTypeCreatePage"] = category_type_create_page
+        category_type_create_page.grid(row=0, column=0, sticky="nsew")
 
         user_list_page = UserPage(self.container, self)
         self.pages["UserPage"] = user_list_page
