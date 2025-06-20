@@ -5,26 +5,26 @@ from ..core.api_client import APIClient
 
 class UserAccountsAPIClient(APIClient):
 
-    def get_all_user_accounts(self):
-        return self._make_request("GET", "/accounts/all")
+    def get_all_users_accounts(self):
+        return self._make_request("GET", "/users_accounts/all")
 
-    def get_account_by_id(self, account_id: UUID):
-        return self._make_request("GET", f"/accounts/{account_id}")
+    def get_users_accounts_by_id(self, users_accounts_id: UUID):
+        return self._make_request("GET", f"/users_accounts/{users_accounts_id}")
 
-    def create_account(self, account_data: dict):
-        return self._make_request("POST", "/accounts/create", json=account_data)
+    def create_users_accounts(self, users_accounts_data: dict):
+        return self._make_request("POST", "/users_accounts/create", json=users_accounts_data)
 
-    def update_account(self, account_id: UUID, account_data: dict):
-        return self._make_request("PATCH", f"/accounts/{account_id}/update", json=account_data)
+    def update_users_accounts(self, users_accounts_id: UUID, users_accounts_data: dict):
+        return self._make_request("PATCH", f"/users_accounts/{users_accounts_id}/update", json=users_accounts_data)
 
-    def delete_account(self, account_id: UUID):
-        return self._make_request("DELETE", f"/accounts/{account_id}/delete")
+    def delete_users_accounts(self, users_accounts_id: UUID):
+        return self._make_request("DELETE", f"/users_accounts/{users_accounts_id}/delete")
 
-    def restore_account(self, account_id: UUID):
-        return self._make_request("POST", f"/accounts/{account_id}/restore")
+    def restore_users_accounts(self, users_accounts_id: UUID):
+        return self._make_request("POST", f"/users_accounts/{users_accounts_id}/restore")
 
-    def force_delete_account(self, account_id: UUID):
-        return self._make_request("DELETE", f"/accounts/{account_id}/force-delete")
+    def force_delete_users_accounts(self, users_accounts_id: UUID):
+        return self._make_request("DELETE", f"/users_accounts/{users_accounts_id}/force-delete")
 
 
-account_api_client = UserAccountsAPIClient()
+users_accounts_api_client = UserAccountsAPIClient()
