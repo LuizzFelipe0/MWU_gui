@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-from MWU_gui.pages.base_page import BasePage
+from pages.base_page import BasePage
 
 
 class HomePage(BasePage):

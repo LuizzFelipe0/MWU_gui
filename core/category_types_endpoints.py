@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from ..core.api_client import APIClient
+from core.api_client import APIClient
 
 
 class CategoryTypesAPIClient(APIClient):

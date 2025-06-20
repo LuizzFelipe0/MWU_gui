@@ -1,15 +1,15 @@
 import tkinter as tk
 
-from MWU_gui.pages.accounts.account_create_page import AccountCreatePage
-from MWU_gui.pages.accounts.account_page import AccountsPage
-from MWU_gui.pages.accounts.account_update_page import AccountUpdatePage
-from MWU_gui.pages.category_types.category_types_create_page import CategoryTypeCreatePage
-from MWU_gui.pages.category_types.category_types_page import CategoryTypesPage
-from MWU_gui.pages.category_types.category_types_update_page import CategoryTypeUpdatePage
-from MWU_gui.pages.home import HomePage
-from MWU_gui.pages.user.user_create_page import UserCreatePage
-from MWU_gui.pages.user.user_page import UserPage
-from MWU_gui.pages.user.user_update_page import UserUpdatePage
+from pages.accounts.account_create_page import AccountCreatePage
+from pages.accounts.account_page import AccountsPage
+from pages.accounts.account_update_page import AccountUpdatePage
+from pages.category_types.category_types_create_page import CategoryTypeCreatePage
+from pages.category_types.category_types_page import CategoryTypesPage
+from pages.category_types.category_types_update_page import CategoryTypeUpdatePage
+from pages.home import HomePage
+from pages.user.user_create_page import UserCreatePage
+from pages.user.user_page import UserPage
+from pages.user.user_update_page import UserUpdatePage
 
 
 class App(tk.Tk):

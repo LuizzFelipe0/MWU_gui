@@ -1,8 +1,8 @@
 from tkinter import messagebox, ttk
 
-from ...components.detail_form_component import DetailFormComponent
-from ...core.accounts_endpoints import account_api_client
-from ...pages.base_page import BasePage
+from components.detail_form_component import DetailFormComponent
+from core.accounts_endpoints import account_api_client
+from pages.base_page import BasePage
 
 
 class AccountCreatePage(BasePage):

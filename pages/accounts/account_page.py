@@ -3,9 +3,9 @@ from datetime import datetime
 from tkinter import ttk, messagebox
 from uuid import UUID
 
-from MWU_gui.components.list_box_component import ListBoxComponent
-from MWU_gui.core.accounts_endpoints import account_api_client
-from MWU_gui.pages.base_page import BasePage
+from components.list_box_component import ListBoxComponent
+from core.accounts_endpoints import account_api_client
+from pages.base_page import BasePage
 
 
 class AccountsPage(BasePage):

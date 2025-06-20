@@ -1,9 +1,9 @@
 from tkinter import messagebox, ttk
 from uuid import UUID
 
-from ...components.detail_form_component import DetailFormComponent
-from ...core.category_types_endpoints import category_type_api_client
-from ...pages.base_page import BasePage
+from components.detail_form_component import DetailFormComponent
+from core.category_types_endpoints import category_type_api_client
+from pages.base_page import BasePage
 
 
 class CategoryTypeUpdatePage(BasePage):
