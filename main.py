@@ -10,6 +10,9 @@ from pages.home import HomePage
 from pages.user.user_create_page import UserCreatePage
 from pages.user.user_page import UserPage
 from pages.user.user_update_page import UserUpdatePage
+from pages.user_accounts.user_accounts_create_page import UserAccountsCreatePage
+from pages.user_accounts.user_accounts_page import UserAccountsPage
+from pages.user_accounts.user_accounts_update_page import UserAccountsUpdatePage
 
 
 class App(tk.Tk):
@@ -56,6 +59,18 @@ class App(tk.Tk):
         category_type_create_page = CategoryTypeCreatePage(self.container, self)
         self.pages["CategoryTypeCreatePage"] = category_type_create_page
         category_type_create_page.grid(row=0, column=0, sticky="nsew")
+
+        user_accounts_list_page = UserAccountsPage(self.container, self)
+        self.pages["UserAccountsPage"] = user_accounts_list_page
+        user_accounts_list_page.grid(row=0, column=0, sticky="nsew")
+
+        user_accounts_update_page = UserAccountsUpdatePage(self.container, self)
+        self.pages["UserAccountsUpdatePage"] = user_accounts_update_page
+        user_accounts_update_page.grid(row=0, column=0, sticky="nsew")
+
+        user_accounts_create_page = UserAccountsCreatePage(self.container, self)
+        self.pages["UserAccountsCreatePage"] = user_accounts_create_page
+        user_accounts_create_page.grid(row=0, column=0, sticky="nsew")
 
         user_list_page = UserPage(self.container, self)
         self.pages["UserPage"] = user_list_page
