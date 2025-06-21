@@ -3,15 +3,17 @@ from datetime import datetime
 from tkinter import ttk, messagebox
 from uuid import UUID
 
-from MWU_gui.components.list_box_component import ListBoxComponent
-from MWU_gui.core.category_types_endpoints import category_type_api_client
-from MWU_gui.pages.base_page import BasePage
+from components.list_box_component import ListBoxComponent
+from core.financial_goals_endpoints import financial_goals_api_client
+from core.users_endpoints import user_api_client
+from pages.base_page import BasePage
 
 
 class FinancialGoalsPage(BasePage):
     def __init__(self, parent, controller=None, *args, **kwargs):
         super().__init__(parent, controller, *args, **kwargs)
-        self.category_type_data = []
+        self.financial_goal_data = []
+        self.users_cache = {}
 
     def _setup_ui(self):
         self.grid_rowconfigure(0, weight=0)
@@ -28,17 +30,18 @@ class FinancialGoalsPage(BasePage):
         else:
             print("Warning: Controller not provided to Financial Goals Page. 'Back to Home' button disabled.")
 
-        title_label = tk.Label(self, text="Categories", font=("Arial", 20, "bold"), pady=10)
+        title_label = tk.Label(self, text="Financial Goals", font=("Arial", 20, "bold"), pady=10)
         title_label.grid(row=0, column=0, columnspan=2, pady=10, sticky="n")
 
-        create_category_type_button = ttk.Button(self, text="Create New FinancialGoal",
+        create_financial_goal_button = ttk.Button(self, text="Create New FinancialGoal",
                                                  command=lambda: self.controller.show_page("FinancialGoalsCreatePage"))
-        create_category_type_button.grid(row=0, column=1, padx=10, pady=10, sticky="ne")
+        create_financial_goal_button.grid(row=0, column=1, padx=10, pady=10, sticky="ne")
 
-        self.columns = ["id", "name", "description", "target_amount", "deadline", "created_at"]
+        self.columns = ["id", "user_name", "name", "description", "target_amount", "deadline", "created_at"]
 
         self.display_headings = {
             "id": "ID",
+            "user_name": "User Name",
             "name": "Name",
             "description": "Description",
             "target_amount": "Target Amount",
@@ -46,47 +49,61 @@ class FinancialGoalsPage(BasePage):
             "created_at": "Created At"
         }
 
-        self.category_type_list_component = ListBoxComponent(self, columns=self.columns,
+        self.financial_goal_list_component = ListBoxComponent(self, columns=self.columns,
                                                              display_headings=self.display_headings)
-        self.category_type_list_component.grid(row=1, column=0, columnspan=2, padx=10, pady=10,
+        self.financial_goal_list_component.grid(row=1, column=0, columnspan=2, padx=10, pady=10,
                                                sticky="nsew")
-        self.category_type_list_component.on_select(self._on_category_type_selected)
+        self.financial_goal_list_component.on_select(self._on_financial_goal_selected)
 
-        refresh_button = ttk.Button(self, text="Refresh Financial Goals", command=self._load_category_types)
+        refresh_button = ttk.Button(self, text="Refresh Financial Goals", command=self._load_financial_goals)
         refresh_button.grid(row=2, column=0, columnspan=2, pady=5)
 
-        self._load_category_types()
+        self._load_financial_goals()
 
-    def _load_category_types(self):
+    def _fetch_all_users(self):
         try:
-            category_types_raw_data = category_type_api_client.get_all_category_types()
-            self.category_type_data = category_types_raw_data
+            users = user_api_client.get_all_users()
+            self.users_cache = {str(user["id"]): user for user in users if user and "id" in user}
+        except Exception as e:
+            messagebox.showwarning("Data Load Warning", f"Could not load all users: {e}")
+
+
+    def _load_financial_goals(self):
+        try:
+            self._fetch_all_users()
+            financial_goals_raw_data = financial_goals_api_client.get_all_financial_goals()
+            self.financial_goal_data = financial_goals_raw_data
             items_for_list = []
-            for category_type in category_types_raw_data:
+
+            for financial_goal in financial_goals_raw_data:
+                user_id = financial_goal.get("user_id")
+                user_name = self.users_cache.get(str(user_id), {}).get("first_name", "Unknown User")
+
                 row_values = []
                 for col in self.columns:
-                    value = category_type.get(col, '')
-                    if isinstance(value, UUID):
-                        row_values.append(str(value))
-                    elif isinstance(value, datetime):
-                        row_values.append(value.strftime("%Y-%m-%d %H:%M:%S"))
+                    if col == "user_name":
+                        row_values.append(user_name)
                     else:
-                        row_values.append(value)
+                        value = financial_goal.get(col, '')
+                        if isinstance(value, UUID):
+                            row_values.append(str(value))
+                        else:
+                            row_values.append(value)
                 items_for_list.append(tuple(row_values))
-            self.category_type_list_component.set_items(items_for_list)
+            self.financial_goal_list_component.set_items(items_for_list)
         except Exception as e:
             messagebox.showerror("API Error", f"Failed to load Financial Goals: {e}")
-            self.category_type_list_component.clear_list()
+            self.financial_goal_list_component.clear_list()
 
-    def _on_category_type_selected(self, selected_values):
+    def _on_financial_goal_selected(self, selected_values):
         if selected_values:
-            category_type_id = selected_values[0]
+            financial_goal_id = selected_values[0]
             if self.controller:
-                self.controller.show_page("FinancialGoalsUpdatePage", category_type_id=category_type_id)
+                self.controller.show_page("FinancialGoalsUpdatePage", financial_goals_id=financial_goal_id)
             else:
                 messagebox.showerror("Error", "Controller not available to show detail page.")
         else:
             pass
 
     def refresh(self):
-        self._load_category_types()
+        self._load_financial_goals()
