@@ -1,10 +1,10 @@
 import tkinter as tk
-from datetime import datetime
 from tkinter import ttk
+from datetime import datetime
+from components.id_dropdown_component import IdDropdownComponent
 
 
 class DetailFormComponent(tk.Frame):
-
     def __init__(self, parent, fields_config: list,
                  on_save_callback=None, on_update_callback=None,
                  on_delete_callback=None, on_cancel_callback=None,
@@ -19,6 +19,7 @@ class DetailFormComponent(tk.Frame):
         self.title_text = title_text
 
         self.entry_vars = {}
+        self.id_dropdown_components = {}
 
         self._setup_ui()
         self._apply_styles()
@@ -53,17 +54,14 @@ class DetailFormComponent(tk.Frame):
                         borderwidth=0, relief="flat")
         style.map("Save.TButton", background=[("active", "#0056B3"), ("!disabled", "#007AFF")],
                   foreground=[("active", "white"), ("!disabled", "white")])
-
         style.configure("Update.TButton", background="#34C759", foreground="white", font=("Arial", 12, "bold"),
                         borderwidth=0, relief="flat")
         style.map("Update.TButton", background=[("active", "#28A745"), ("!disabled", "#34C759")],
                   foreground=[("active", "white"), ("!disabled", "white")])
-
         style.configure("Delete.TButton", background="#FF3B30", foreground="white", font=("Arial", 12, "bold"),
                         borderwidth=0, relief="flat")
         style.map("Delete.TButton", background=[("active", "#CC2D25"), ("!disabled", "#FF3B30")],
                   foreground=[("active", "white"), ("!disabled", "white")])
-
         style.configure("Cancel.TButton", background="#8E8E93", foreground="white", font=("Arial", 12, "bold"),
                         borderwidth=0, relief="flat")
         style.map("Cancel.TButton", background=[("active", "#707073"), ("!disabled", "#8E8E93")],
@@ -84,6 +82,7 @@ class DetailFormComponent(tk.Frame):
             field_type = field.get('type', 'entry')
             read_only = field.get('read_only', False)
             show_field = field.get('show', True)
+            options = field.get('options', [])
 
             if not show_field:
                 continue
@@ -91,27 +90,29 @@ class DetailFormComponent(tk.Frame):
             ttk.Label(self, text=f"{label_text}:", style="Detail.TLabel").grid(row=current_row, column=0, padx=10,
                                                                                pady=5, sticky="w")
 
-            var = tk.StringVar(value="")
-
-            if field_type == 'entry':
-                widget = ttk.Entry(self, textvariable=var, style="Detail.TEntry")
+            if field_type == 'entry' or field_type == 'password':
+                var = tk.StringVar(value="")
+                widget = ttk.Entry(self, textvariable=var, show="*" if field_type == 'password' else "",
+                                   style="Detail.TEntry")
                 if read_only:
                     widget.configure(state="readonly")
-                widget.grid(row=current_row, column=1, padx=10, pady=5, sticky="ew")
-            elif field_type == 'password':
-                widget = ttk.Entry(self, textvariable=var, show="*", style="Detail.TEntry")
+                self.entry_vars[field_key] = var
                 widget.grid(row=current_row, column=1, padx=10, pady=5, sticky="ew")
             elif field_type == 'dropdown':
-                options = field.get('options', [])
-                if options:
-                    var.set(options[0])
+                var = tk.StringVar(value="")
                 widget = ttk.Combobox(self, textvariable=var, values=options, state="readonly",
                                       style="Detail.TCombobox")
                 if read_only:
                     widget.configure(state="readonly")
+                self.entry_vars[field_key] = var
                 widget.grid(row=current_row, column=1, padx=10, pady=5, sticky="ew")
-
-            self.entry_vars[field_key] = var
+            elif field_type == 'id_dropdown':
+                widget = IdDropdownComponent(self, style="Detail.TCombobox")
+                widget.set_options(options)
+                if read_only:
+                    widget.configure(state="readonly")
+                self.id_dropdown_components[field_key] = widget
+                widget.grid(row=current_row, column=1, padx=10, pady=5, sticky="ew")
 
             current_row += 1
 
@@ -123,32 +124,29 @@ class DetailFormComponent(tk.Frame):
         button_frame.grid_columnconfigure(0, weight=1)
         button_frame.grid_columnconfigure(1, weight=0)
         button_frame.grid_columnconfigure(2, weight=0)
-        button_frame.grid_columnconfigure(3, weight=0)
-        button_frame.grid_columnconfigure(4, weight=0)
-        button_frame.grid_columnconfigure(5, weight=1)
+        button_column_start = 1
 
-        btn_col = 1
         if self.on_save_callback:
             ttk.Button(button_frame, text="Save", command=self.on_save_callback, style="Save.TButton").grid(row=0,
-                                                                                                            column=btn_col,
+                                                                                                            column=button_column_start,
                                                                                                             padx=5,
                                                                                                             pady=5)
-            btn_col += 1
+            button_column_start += 1
         if self.on_update_callback:
             ttk.Button(button_frame, text="Update", command=self.on_update_callback, style="Update.TButton").grid(row=0,
-                                                                                                                  column=btn_col,
+                                                                                                                  column=button_column_start,
                                                                                                                   padx=5,
                                                                                                                   pady=5)
-            btn_col += 1
+            button_column_start += 1
         if self.on_delete_callback:
             ttk.Button(button_frame, text="Delete", command=self.on_delete_callback, style="Delete.TButton").grid(row=0,
-                                                                                                                  column=btn_col,
+                                                                                                                  column=button_column_start,
                                                                                                                   padx=5,
                                                                                                                   pady=5)
-            btn_col += 1
+            button_column_start += 1
         if self.on_cancel_callback:
             ttk.Button(button_frame, text="Cancel", command=self.on_cancel_callback, style="Cancel.TButton").grid(row=0,
-                                                                                                                  column=btn_col,
+                                                                                                                  column=button_column_start,
                                                                                                                   padx=5,
                                                                                                                   pady=5)
 
@@ -156,19 +154,26 @@ class DetailFormComponent(tk.Frame):
         for field in self.fields_config:
             field_key = field.get('key', '')
             field_type = field.get('type', 'entry')
-            var = self.entry_vars.get(field_key)
 
-            if var:
-                value = data.get(field_key, "")
-                if isinstance(value, datetime):
-                    var.set(value.strftime("%Y-%m-%d %H:%M:%S"))
-                elif field_type == 'dropdown' and not value and field.get('options'):
-                    var.set(field['options'][0])
-                else:
-                    var.set(str(value))
+            value = data.get(field_key, "")
+
+            if field_type == 'id_dropdown':
+                component = self.id_dropdown_components.get(field_key)
+                if component:
+                    component.set_selected_id(str(value))
+            else:
+                var = self.entry_vars.get(field_key)
+                if var:
+                    if isinstance(value, datetime):
+                        var.set(value.strftime("%Y-%m-%d %H:%M:%S"))
+                    else:
+                        var.set(str(value))
 
     def get_data(self) -> dict:
         data = {}
         for key, var in self.entry_vars.items():
             data[key] = var.get()
+
+        for key, component in self.id_dropdown_components.items():
+            data[key] = component.get_selected_id()
         return data
