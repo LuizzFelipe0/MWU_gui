@@ -8,10 +8,8 @@ class BasePage(tk.Frame):
         self.controller = controller
         self.parent = parent
 
-        style = ttk.Style()
-        style.theme_use('clam')
-
-        self.configure(bg="#F0F0F0")
+        self.style = ttk.Style()
+        self.style.theme_use('clam')
 
         self._setup_ui()
 

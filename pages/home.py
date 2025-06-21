@@ -66,8 +66,8 @@ class HomePage(BasePage):
         center_frame.grid_rowconfigure(4, weight=1)
         center_frame.grid_columnconfigure(0, weight=1)
 
-        title_label = tk.Label(center_frame, text="Money With You (MWU)",
-                               font=("Arial", 36, "bold"), fg="#2C3E50")
+        title_label = tk.Label(center_frame, text="MWU Adminstration Panel",
+                               font=("Arial", 24, "bold"), fg="#2C3E50")
         title_label.grid(row=0, column=0, pady=(50, 10), sticky="n")
 
         description_text = (
@@ -81,7 +81,7 @@ class HomePage(BasePage):
         description_label.grid(row=1, column=0, pady=(0, 30), sticky="n")
 
         navigation_frame = tk.Frame(center_frame)
-        navigation_frame.grid(row=3, column=0, padx=20, pady=10,
+        navigation_frame.grid(row=3, column=0, padx=10, pady=10,
                               sticky="")
 
         navigation_frame.grid_columnconfigure(0, weight=1)

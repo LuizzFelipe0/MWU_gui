@@ -1,11 +1,15 @@
 import tkinter as tk
 
+from components.base_layout_component import BaseLayout
 from pages.accounts.account_create_page import AccountCreatePage
 from pages.accounts.account_page import AccountsPage
 from pages.accounts.account_update_page import AccountUpdatePage
 from pages.category_types.category_types_create_page import CategoryTypeCreatePage
 from pages.category_types.category_types_page import CategoryTypesPage
 from pages.category_types.category_types_update_page import CategoryTypeUpdatePage
+from pages.financial_goals.financial_goals_create_page import FinancialGoalsCreatePage
+from pages.financial_goals.financial_goals_page import FinancialGoalsPage
+from pages.financial_goals.financial_goals_update_page import FinancialGoalsUpdatePage
 from pages.home import HomePage
 from pages.user.user_create_page import UserCreatePage
 from pages.user.user_page import UserPage
@@ -19,10 +23,10 @@ class App(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Money With You - GUI")
-        self.geometry("1024x768")
 
-        self.container = tk.Frame(self)
-        self.container.pack(side="top", fill="both", expand=True)
+        self.ios_layout = BaseLayout(self)
+
+        self.container = self.ios_layout.get_content_frame()
         self.container.grid_rowconfigure(0, weight=1)
         self.container.grid_columnconfigure(0, weight=1)
 
@@ -30,6 +34,7 @@ class App(tk.Tk):
         self._create_pages()
 
         self.show_page("HomePage")
+
 
     def _create_pages(self):
         home_page = HomePage(self.container, self)
@@ -59,6 +64,18 @@ class App(tk.Tk):
         category_type_create_page = CategoryTypeCreatePage(self.container, self)
         self.pages["CategoryTypeCreatePage"] = category_type_create_page
         category_type_create_page.grid(row=0, column=0, sticky="nsew")
+        
+        financial_goals_list_page = FinancialGoalsPage(self.container, self)
+        self.pages["FinancialGoalsPage"] = financial_goals_list_page
+        financial_goals_list_page.grid(row=0, column=0, sticky="nsew")
+
+        financial_goals_update_page = FinancialGoalsUpdatePage(self.container, self)
+        self.pages["FinancialGoalsUpdatePage"] = financial_goals_update_page
+        financial_goals_update_page.grid(row=0, column=0, sticky="nsew")
+
+        financial_goals_create_page = FinancialGoalsCreatePage(self.container, self)
+        self.pages["FinancialGoalsCreatePage"] = financial_goals_create_page
+        financial_goals_create_page.grid(row=0, column=0, sticky="nsew")
 
         user_accounts_list_page = UserAccountsPage(self.container, self)
         self.pages["UserAccountsPage"] = user_accounts_list_page
