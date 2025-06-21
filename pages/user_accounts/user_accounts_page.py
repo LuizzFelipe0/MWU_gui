@@ -1,11 +1,11 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 
-from MWU_gui.components.list_box_component import ListBoxComponent
-from MWU_gui.core.user_accounts_endpoints import users_accounts_api_client
-from MWU_gui.core.users_endpoints import user_api_client
-from MWU_gui.core.accounts_endpoints import account_api_client
-from MWU_gui.pages.base_page import BasePage
+from components.list_box_component import ListBoxComponent
+from core.user_accounts_endpoints import users_accounts_api_client
+from core.users_endpoints import user_api_client
+from core.accounts_endpoints import account_api_client
+from pages.base_page import BasePage
 
 
 class UserAccountsPage(BasePage):
@@ -98,7 +98,7 @@ class UserAccountsPage(BasePage):
         if selected_values:
             user_accounts_id = selected_values[0]
             if self.controller:
-                self.controller.show_page("UserAccountsUpdatePage", user_accounts_id=user_accounts_id)
+                self.controller.show_page("UserAccountsUpdatePage", user_account_id=user_accounts_id)
             else:
                 pass
         else:
