@@ -4,6 +4,7 @@ from components.base_layout_component import BaseLayout
 from pages.accounts.account_create_page import AccountCreatePage
 from pages.accounts.account_page import AccountsPage
 from pages.accounts.account_update_page import AccountUpdatePage
+from pages.categories.category_page import CategoryPage
 from pages.category_types.category_types_create_page import CategoryTypeCreatePage
 from pages.category_types.category_types_page import CategoryTypesPage
 from pages.category_types.category_types_update_page import CategoryTypeUpdatePage
@@ -52,6 +53,10 @@ class App(tk.Tk):
         account_create_page = AccountCreatePage(self.container, self)
         self.pages["AccountCreatePage"] = account_create_page
         account_create_page.grid(row=0, column=0, sticky="nsew")
+
+        category_list_page = CategoryPage(self.container, self)
+        self.pages["CategoryPage"] = category_list_page
+        category_list_page.grid(row=0, column=0, sticky="nsew")
 
         category_type_list_page = CategoryTypesPage(self.container, self)
         self.pages["CategoryTypesPage"] = category_type_list_page

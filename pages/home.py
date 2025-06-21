@@ -96,7 +96,7 @@ class HomePage(BasePage):
             ("User Accounts", "UserAccountsPage", "Orange.TButton"),
             ("Accounts", "AccountsPage", "Purple.TButton"),
             ("Financial Goals", "FinancialGoalsPage", "Red.TButton"),
-            ("Categories", "CategoriesPage", "Blue.TButton"),
+            ("Categories", "CategoryPage", "Blue.TButton"),
             ("Category Types", "CategoryTypesPage", "Green.TButton"),
         ]
 
