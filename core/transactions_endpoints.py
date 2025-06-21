@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from ..core.api_client import APIClient
+from core.api_client import APIClient
 
 
 class TransactionAPIClient(APIClient):
@@ -15,10 +15,10 @@ class TransactionAPIClient(APIClient):
         return self._make_request("GET", f"/transactions/{transaction_id}")
 
     def create_transaction(self, transaction_data: dict):
-        return self._make_request("POST", "/transactions/create", json=transaction_data)
+        return self._make_request("POST", "/transactions/create", data=transaction_data)
 
     def update_transaction(self, transaction_id: UUID, transaction_data: dict):
-        return self._make_request("PATCH", f"/transactions/{transaction_id}/update", json=transaction_data)
+        return self._make_request("PATCH", f"/transactions/{transaction_id}/update", data=transaction_data)
 
     def delete_transaction(self, transaction_id: UUID):
         return self._make_request("DELETE", f"/transactions/{transaction_id}/delete")

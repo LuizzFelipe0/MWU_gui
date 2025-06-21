@@ -24,7 +24,7 @@ class APIClient:
             elif method == "POST":
                 response = requests.post(url, json=data, headers=headers)
             elif method == "PATCH":
-                response = requests.put(url, json=data, headers=headers)
+                response = requests.patch(url, json=data, headers=headers)
             elif method == "DELETE":
                 response = requests.delete(url, headers=headers)
             else:

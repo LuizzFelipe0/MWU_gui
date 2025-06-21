@@ -15,11 +15,10 @@ class UserAPIClient(APIClient):
         return self._make_request("GET", f"/users/{user_id}")
 
     def create_user(self, user_data: dict):
-        # O FastAPI espera o body como JSON
-        return self._make_request("POST", "/users/create", json=user_data)
+        return self._make_request("POST", "/users/create", data=user_data)
 
     def update_user(self, user_id: UUID, user_data: dict):
-        return self._make_request("PATCH", f"/users/{user_id}/update", json=user_data)
+        return self._make_request("PATCH", f"/users/{user_id}/update", data=user_data)
 
     def delete_user(self, user_id: UUID):
         return self._make_request("DELETE", f"/users/{user_id}/delete")

@@ -15,10 +15,10 @@ class AccountAPIClient(APIClient):
         return self._make_request("GET", f"/accounts/{account_id}")
 
     def create_account(self, account_data: dict):
-        return self._make_request("POST", "/accounts/create", json=account_data)
+        return self._make_request("POST", "/accounts/create", data=account_data)
 
     def update_account(self, account_id: UUID, account_data: dict):
-        return self._make_request("PATCH", f"/accounts/{account_id}/update", json=account_data)
+        return self._make_request("PATCH", f"/accounts/{account_id}/update", data=account_data)
 
     def delete_account(self, account_id: UUID):
         return self._make_request("DELETE", f"/accounts/{account_id}/delete")
