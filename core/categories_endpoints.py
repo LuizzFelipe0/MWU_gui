@@ -3,7 +3,7 @@ from uuid import UUID
 from core.api_client import APIClient
 
 
-class AccountAPIClient(APIClient):
+class CategoryAPIClient(APIClient):
 
     def get_all_categories(self):
         return self._make_request("GET", "/categories/all")
@@ -15,10 +15,10 @@ class AccountAPIClient(APIClient):
         return self._make_request("GET", f"/categories/{category_id}")
 
     def create_category(self, category_data: dict):
-        return self._make_request("POST", "/categories/create", json=category_data)
+        return self._make_request("POST", "/categories/create", data=category_data)
 
     def update_category(self, category_id: UUID, category_data: dict):
-        return self._make_request("PATCH", f"/categories/{category_id}/update", json=category_data)
+        return self._make_request("PATCH", f"/categories/{category_id}/update", data=category_data)
 
     def delete_category(self, category_id: UUID):
         return self._make_request("DELETE", f"/categories/{category_id}/delete")
@@ -29,5 +29,4 @@ class AccountAPIClient(APIClient):
     def force_delete_category(self, category_id: UUID):
         return self._make_request("DELETE", f"/categories/{category_id}/force-delete")
 
-
-category_api_client = AccountAPIClient()
+category_api_client = CategoryAPIClient()
