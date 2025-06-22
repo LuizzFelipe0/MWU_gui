@@ -1,6 +1,4 @@
-import tkinter as tk
 from tkinter import messagebox, ttk
-from uuid import UUID
 
 from components.detail_form_component import DetailFormComponent
 from core.financial_goals_endpoints import financial_goals_api_client

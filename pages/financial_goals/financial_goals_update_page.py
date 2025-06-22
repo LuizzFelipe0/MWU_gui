@@ -1,4 +1,3 @@
-import tkinter as tk
 from tkinter import messagebox, ttk
 from uuid import UUID
 
@@ -34,6 +33,8 @@ class FinancialGoalsUpdatePage(BasePage):
             {'label': 'Description', 'key': 'description', 'type': 'entry'},
             {'label': 'Target Amount', 'key': 'target_amount', 'type': 'entry'},
             {'label': 'Deadline', 'key': 'deadline', 'type': 'entry'},
+            {'label': 'Created At', 'key': 'created_at', 'type': 'entry', 'read_only': True},
+            {'label': 'Updated At', 'key': 'updated_at', 'type': 'entry', 'read_only': True}
         ]
 
         self.detail_form = None
@@ -82,7 +83,9 @@ class FinancialGoalsUpdatePage(BasePage):
                 'name': financial_goals_data.get('name', ''),
                 'description': financial_goals_data.get('description', ''),
                 'target_amount': financial_goals_data.get('target_amount', ''),
-                'deadline': financial_goals_data.get('deadline', '')
+                'deadline': financial_goals_data.get('deadline', ''),
+                'created_at': financial_goals_data.get('created_at', ''),
+                'updated_at': financial_goals_data.get('updated_at', '')
             }
             self.detail_form.set_data(data_to_set)
 
