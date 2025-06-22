@@ -53,9 +53,6 @@ class AccountsPage(BasePage):
                                       sticky="nsew")
         self.account_list_component.on_select(self._on_account_selected)
 
-        refresh_button = ttk.Button(self, text="Refresh Accounts", command=self._load_accounts)
-        refresh_button.grid(row=2, column=0, columnspan=2, pady=5)
-
         self._load_accounts()
 
     def _load_accounts(self):

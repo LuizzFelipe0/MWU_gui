@@ -48,9 +48,6 @@ class CategoryTypesPage(BasePage):
                                       sticky="nsew")
         self.category_type_list_component.on_select(self._on_category_type_selected)
 
-        refresh_button = ttk.Button(self, text="Refresh Category Types", command=self._load_category_types)
-        refresh_button.grid(row=2, column=0, columnspan=2, pady=5)
-
         self._load_category_types()
 
     def _load_category_types(self):

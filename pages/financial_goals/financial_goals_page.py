@@ -55,9 +55,6 @@ class FinancialGoalsPage(BasePage):
                                                sticky="nsew")
         self.financial_goal_list_component.on_select(self._on_financial_goal_selected)
 
-        refresh_button = ttk.Button(self, text="Refresh Financial Goals", command=self._load_financial_goals)
-        refresh_button.grid(row=2, column=0, columnspan=2, pady=5)
-
         self._load_financial_goals()
 
     def _fetch_all_users(self):
