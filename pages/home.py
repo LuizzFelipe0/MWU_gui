@@ -92,7 +92,7 @@ class HomePage(BasePage):
         buttons_info = [
             ("Analytics", "AnalyticsPage", "Purple.TButton"),
             ("Users", "UserPage", "Blue.TButton"),
-            ("Transactions", "TransactionsPage", "Green.TButton"),
+            ("Transactions", "TransactionPage", "Green.TButton"),
             ("User Accounts", "UserAccountsPage", "Orange.TButton"),
             ("Accounts", "AccountsPage", "Purple.TButton"),
             ("Financial Goals", "FinancialGoalsPage", "Red.TButton"),

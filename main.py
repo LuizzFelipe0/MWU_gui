@@ -14,6 +14,9 @@ from pages.financial_goals.financial_goals_create_page import FinancialGoalsCrea
 from pages.financial_goals.financial_goals_page import FinancialGoalsPage
 from pages.financial_goals.financial_goals_update_page import FinancialGoalsUpdatePage
 from pages.home import HomePage
+from pages.transactions.transaction_create_page import TransactionCreatePage
+from pages.transactions.transaction_page import TransactionPage
+from pages.transactions.transaction_update_page import TransactionUpdatePage
 from pages.user.user_create_page import UserCreatePage
 from pages.user.user_page import UserPage
 from pages.user.user_update_page import UserUpdatePage
@@ -103,6 +106,18 @@ class App(tk.Tk):
         user_accounts_create_page = UserAccountsCreatePage(self.container, self)
         self.pages["UserAccountsCreatePage"] = user_accounts_create_page
         user_accounts_create_page.grid(row=0, column=0, sticky="nsew")
+        
+        transaction_list_page = TransactionPage(self.container, self)
+        self.pages["TransactionPage"] = transaction_list_page
+        transaction_list_page.grid(row=0, column=0, sticky="nsew")
+
+        transaction_update_page = TransactionUpdatePage(self.container, self)
+        self.pages["TransactionUpdatePage"] = transaction_update_page
+        transaction_update_page.grid(row=0, column=0, sticky="nsew")
+
+        #transaction_create_page = TransactionCreatePage(self.container, self)
+        #self.pages["TransactionCreatePage"] = transaction_create_page
+        #transaction_create_page.grid(row=0, column=0, sticky="nsew")
 
         user_list_page = UserPage(self.container, self)
         self.pages["UserPage"] = user_list_page
