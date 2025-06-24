@@ -115,9 +115,9 @@ class App(tk.Tk):
         self.pages["TransactionUpdatePage"] = transaction_update_page
         transaction_update_page.grid(row=0, column=0, sticky="nsew")
 
-        #transaction_create_page = TransactionCreatePage(self.container, self)
-        #self.pages["TransactionCreatePage"] = transaction_create_page
-        #transaction_create_page.grid(row=0, column=0, sticky="nsew")
+        transaction_create_page = TransactionCreatePage(self.container, self)
+        self.pages["TransactionCreatePage"] = transaction_create_page
+        transaction_create_page.grid(row=0, column=0, sticky="nsew")
 
         user_list_page = UserPage(self.container, self)
         self.pages["UserPage"] = user_list_page
