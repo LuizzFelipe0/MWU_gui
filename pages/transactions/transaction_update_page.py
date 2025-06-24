@@ -39,11 +39,11 @@ class TransactionUpdatePage(BasePage):
             {'label': 'Name', 'key': 'name', 'type': 'entry'},
             {'label': 'Description', 'key': 'description', 'type': 'entry'},
             {'label': 'Amount', 'key': 'amount', 'type': 'entry'},
-            {'label': 'Date', 'key': 'date', 'type': 'entry'},
+            {'label': 'Date (YYYY-MM-DD)', 'key': 'date', 'type': 'entry'},
             {'label': 'Is Recurring', 'key': 'is_recurring', 'type': 'dropdown', 'options': ['True', 'False']},
             {'label': 'Recurrence Interval', 'key': 'recurrence_interval', 'type': 'dropdown',
              'options': ['Yearly', 'Monthly', 'Weekly', 'Daily']},
-            {'label': 'Next Due Date', 'key': 'next_due_date', 'type': 'entry'},
+            {'label': 'Next Due Date (YYYY-MM-DD)', 'key': 'next_due_date', 'type': 'entry'},
         ]
 
     def refresh(self, transaction_id=None):
