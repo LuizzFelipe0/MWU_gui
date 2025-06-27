@@ -223,7 +223,7 @@ class TransactionUpdatePage(BasePage):
         ):
             try:
                 transaction_api_client.delete_transaction(self.current_transaction_id)
-                messagebox.showinfo("Success", "Transaction deleted successfully!")
+                messagebox.showinfo("Success", "Transaction deleted successfully (soft delete)!")
                 self.controller.show_page("TransactionPage")
             except Exception as e:
                 messagebox.showerror("API Error", f"Failed to delete Transaction: {e}")
