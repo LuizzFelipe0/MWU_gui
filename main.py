@@ -3,9 +3,11 @@ import tkinter as tk
 from components.base_layout_component import BaseLayout
 from pages.accounts.account_create_page import AccountCreatePage
 from pages.accounts.account_page import AccountsPage
+from pages.accounts.account_trashbin_page import AccountsTrashbinPage
 from pages.accounts.account_update_page import AccountUpdatePage
 from pages.categories.category_create_page import CategoryCreatePage
 from pages.categories.category_page import CategoryPage
+from pages.categories.category_trashbin_page import CategoryTrashbinPage
 from pages.categories.category_update_page import CategoryUpdatePage
 from pages.category_types.category_types_create_page import CategoryTypeCreatePage
 from pages.category_types.category_types_page import CategoryTypesPage
@@ -16,9 +18,11 @@ from pages.financial_goals.financial_goals_update_page import FinancialGoalsUpda
 from pages.home import HomePage
 from pages.transactions.transaction_create_page import TransactionCreatePage
 from pages.transactions.transaction_page import TransactionPage
+from pages.transactions.transaction_trashbin_page import TransactionTrashbinPage
 from pages.transactions.transaction_update_page import TransactionUpdatePage
 from pages.user.user_create_page import UserCreatePage
 from pages.user.user_page import UserPage
+from pages.user.user_trashbin_page import UserTrashBinPage
 from pages.user.user_update_page import UserUpdatePage
 from pages.user_accounts.user_accounts_create_page import UserAccountsCreatePage
 from pages.user_accounts.user_accounts_page import UserAccountsPage
@@ -59,6 +63,10 @@ class App(tk.Tk):
         self.pages["AccountCreatePage"] = account_create_page
         account_create_page.grid(row=0, column=0, sticky="nsew")
 
+        account_trashbin_page = AccountsTrashbinPage(self.container, self)
+        self.pages["AccountsTrashbinPage"] = account_trashbin_page
+        account_trashbin_page.grid(row=0, column=0, sticky="nsew")
+
         category_list_page = CategoryPage(self.container, self)
         self.pages["CategoryPage"] = category_list_page
         category_list_page.grid(row=0, column=0, sticky="nsew")
@@ -70,6 +78,11 @@ class App(tk.Tk):
         category_create_page = CategoryCreatePage(self.container, self)
         self.pages["CategoryCreatePage"] = category_create_page
         category_create_page.grid(row=0, column=0, sticky="nsew")
+
+        category_trashbin_page = CategoryTrashbinPage(self.container, self)
+        self.pages["CategoryTrashbinPage"] = category_trashbin_page
+        category_update_page.grid(row=0, column=0, sticky="nsew")
+
 
         category_type_list_page = CategoryTypesPage(self.container, self)
         self.pages["CategoryTypesPage"] = category_type_list_page
@@ -119,6 +132,10 @@ class App(tk.Tk):
         self.pages["TransactionCreatePage"] = transaction_create_page
         transaction_create_page.grid(row=0, column=0, sticky="nsew")
 
+        transaction_trashbin_page = TransactionTrashbinPage(self.container, self)
+        self.pages["TransactionTrashbinPage"] = transaction_trashbin_page
+        transaction_trashbin_page.grid(row=0, column=0, sticky="nsew")
+
         user_list_page = UserPage(self.container, self)
         self.pages["UserPage"] = user_list_page
         user_list_page.grid(row=0, column=0, sticky="nsew")
@@ -130,6 +147,10 @@ class App(tk.Tk):
         user_create_page = UserCreatePage(self.container, self)
         self.pages["UserCreatePage"] = user_create_page
         user_create_page.grid(row=0, column=0, sticky="nsew")
+
+        user_trashbin_page = UserTrashBinPage(self.container, self)
+        self.pages["UserTrashBinPage"] = user_trashbin_page
+        user_trashbin_page.grid(row=0, column=0, sticky="nsew")
 
     def show_page(self, page_name, **kwargs):
         for page in self.pages.values():
