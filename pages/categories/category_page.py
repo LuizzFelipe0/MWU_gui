@@ -35,9 +35,17 @@ class CategoryPage(BasePage):
         title_label = tk.Label(self, text="Categories", font=("Arial", 20, "bold"), pady=10)
         title_label.grid(row=0, column=0, columnspan=2, pady=10, sticky="n")
 
-        create_category_button = ttk.Button(self, text="Create New Category",
-                                                 command=lambda: self.controller.show_page("CategoryCreatePage"))
-        create_category_button.grid(row=0, column=1, padx=10, pady=10, sticky="ne")
+        button_frame = tk.Frame(self, bg=self.cget('bg'))
+        button_frame.grid(row=0, column=1, padx=10, pady=10, sticky="ne")
+
+        category_trashbin_button = ttk.Button(button_frame, text="Categories Trash Bin",
+                                              command=lambda: self.controller.show_page(
+                                                  "CategoryTrashbinPage"))
+        category_trashbin_button.pack(side="left", padx=(0, 20))
+
+        create_category_button = ttk.Button(button_frame, text="Create New Category",
+                                            command=lambda: self.controller.show_page("CategoryCreatePage"))
+        create_category_button.pack(side="left")
 
         self.columns = ["id", "user_name", "category_type_name", "name", "description", "created_at"]
 

@@ -31,9 +31,16 @@ class AccountsPage(BasePage):
         title_label = tk.Label(self, text="Accounts", font=("Arial", 20, "bold"), pady=10)
         title_label.grid(row=0, column=0, columnspan=2, pady=10, sticky="n")
 
-        create_account_button = ttk.Button(self, text="Create New Account",
-                                        command=lambda: self.controller.show_page("AccountCreatePage"))
-        create_account_button.grid(row=0, column=1, padx=10, pady=10, sticky="ne")
+        button_frame = tk.Frame(self, bg=self.cget('bg'))  # Frame container
+        button_frame.grid(row=0, column=1, padx=10, pady=10, sticky="ne")
+
+        account_trashbin_button = ttk.Button(button_frame, text="Accounts Trash-Bin",
+                                             command=lambda: self.controller.show_page("AccountsTrashbinPage"))
+        account_trashbin_button.pack(side="left", padx=(0, 20))
+
+        create_account_button = ttk.Button(button_frame, text="Create New Account",
+                                           command=lambda: self.controller.show_page("AccountCreatePage"))
+        create_account_button.pack(side="left")
 
         self.columns = ["id", "name", "type", "account_number", "created_at", "updated_at",
                         "deleted_at"]

@@ -31,9 +31,16 @@ class UserPage(BasePage):
         title_label = tk.Label(self, text="Users", font=("Arial", 20, "bold"), pady=10)
         title_label.grid(row=0, column=0, columnspan=2, pady=10, sticky="n")
 
-        create_user_button = ttk.Button(self, text="Create New User",
+        button_frame = tk.Frame(self, bg=self.cget('bg'))
+        button_frame.grid(row=0, column=1, padx=10, pady=10, sticky="ne")
+
+        user_trashbin_button = ttk.Button(button_frame, text="Users Trash Bin",
+                                          command=lambda: self.controller.show_page("UserTrashBinPage"))
+        user_trashbin_button.pack(side="left", padx=(0, 20))
+
+        create_user_button = ttk.Button(button_frame, text="Create New User",
                                         command=lambda: self.controller.show_page("UserCreatePage"))
-        create_user_button.grid(row=0, column=1, padx=10, pady=10, sticky="ne")
+        create_user_button.pack(side="left")
 
         self.columns = ["id", "first_name", "last_name", "cpf", "email",
                         "manual_balance", "created_at", "updated_at", "deleted_at"]

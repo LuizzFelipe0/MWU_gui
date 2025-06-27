@@ -34,9 +34,17 @@ class TransactionPage(BasePage):
         title_label = tk.Label(self, text="Transactions", font=("Arial", 20, "bold"), pady=10)
         title_label.grid(row=0, column=0, columnspan=2, pady=10, sticky="n")
 
-        create_Transaction_button = ttk.Button(self, text="Create New Transaction",
-                                                 command=lambda: self.controller.show_page("TransactionCreatePage"))
-        create_Transaction_button.grid(row=0, column=1, padx=10, pady=10, sticky="ne")
+        button_frame = tk.Frame(self, bg=self.cget('bg'))
+        button_frame.grid(row=0, column=1, padx=10, pady=10, sticky="ne")
+
+        transaction_trashbin_button = ttk.Button(button_frame, text="Transactions Trash Bin",
+                                              command=lambda: self.controller.show_page(
+                                                  "TransactionTrashbinPage"))
+        transaction_trashbin_button.pack(side="left", padx=(0, 20))
+
+        create_transaction_button = ttk.Button(button_frame, text="Create New Transaction",
+                                            command=lambda: self.controller.show_page("TransactionCreatePage"))
+        create_transaction_button.pack(side="left")
 
         self.columns = ["id", "user_name", "category_name", "name", "amount", "date", "is_recurring"]
 
